@@ -22,7 +22,7 @@ impl Server {
 		}
 	}
 	
-	pub(crate) fn run(&mut self) {
+	pub(crate) fn run(&mut self) -> !{
 		let mut buf = [0; BUFFER_SIZE];
 		loop{
 			

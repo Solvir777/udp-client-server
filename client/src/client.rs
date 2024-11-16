@@ -8,7 +8,7 @@ pub struct Client {
 }
 
 impl Client {
-	pub(crate) fn run(mut self) {
+	pub(crate) fn run(mut self) -> !{
 		loop {
 			let mut buf = [0u8; BUFFER_SIZE];
 			if let Ok(_) = self.socket.recv(&mut buf) {
