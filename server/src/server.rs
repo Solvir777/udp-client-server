@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::net::{SocketAddr, UdpSocket};
 use std::time::Instant;
 use shared::{SERVER_ADDRESS, BUFFER_SIZE, sleep, TestStruct, Serializable};
@@ -6,7 +7,7 @@ use shared::message::{Message, Sendable};
 pub struct Server {
 	udp: UdpSocket,
 	creation_time: Instant,
-	active_connections: Vec<SocketAddr>,
+	active_connections: HashSet<SocketAddr>,
 }
 
 
@@ -17,7 +18,7 @@ impl Server {
 		Self{
 			udp,
 			creation_time: Instant::now(),
-			active_connections: vec![],
+			active_connections: HashSet::new(),
 		}
 	}
 	
@@ -26,7 +27,7 @@ impl Server {
 		loop{
 			
 			if let Ok((_, addr)) = self.udp.recv_from(&mut buf) {
-				self.active_connections.push(addr)
+				self.active_connections.insert(addr);
 			}
 			
 			for addr in &self.active_connections {

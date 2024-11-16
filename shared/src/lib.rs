@@ -1,5 +1,3 @@
-use std::thread;
-use std::time::Duration;
 pub use serializable::Serializable;
 pub mod message;
 mod serializable;
@@ -11,5 +9,5 @@ pub const BUFFER_SIZE: usize = 2048;
 
 
 pub fn sleep(t: u64) {
-    thread::sleep(Duration::from_millis(t));
+    std::thread::sleep(std::time::Duration::from_millis(t));
 }
