@@ -1,5 +1,3 @@
-use crate::message::Sendable;
-
 pub trait Serializable {
 	fn serialize(&self) -> Vec<u8>;
 	fn deserialize(bytes: &mut Vec<u8>) -> Self where Self: Sized;
@@ -35,7 +33,4 @@ impl Serializable for String {
 		let c = bytes.drain(..end).collect();
 		String::from_utf8(c).expect("Failed to parse string")
 	}
-}
-impl Sendable for String{
-	fn id(&self) -> u8 {1}
 }

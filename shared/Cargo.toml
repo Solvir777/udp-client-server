@@ -4,3 +4,6 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
+sendable_derive = {path = "./proc_macros/sendable_derive"}
+serializable_derive = {path = "./proc_macros/serializable_derive"}
+[lib]

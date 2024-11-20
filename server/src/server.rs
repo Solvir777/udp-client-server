@@ -2,7 +2,8 @@ use std::collections::HashSet;
 use std::net::{SocketAddr, UdpSocket};
 use std::time::Instant;
 use shared::{SERVER_ADDRESS, BUFFER_SIZE, sleep, TestStruct, Serializable};
-use shared::message::{Message, Sendable};
+use shared::udp_message::UDPMessage;
+use shared::sendable::Sendable;
 
 pub struct Server {
 	udp: UdpSocket,
@@ -32,8 +33,9 @@ impl Server {
 			
 			for addr in &self.active_connections {
 				if(self.creation_time.elapsed().as_secs() % 4 == 0){
-					let s = "Hello World".to_string();
-					self.send(addr, Box::new(s));
+					let mut t = TestStruct::new();
+					t.b = self.creation_time.elapsed().as_secs_f32();
+					self.send(addr, Box::new(t));
 				}
 				
 				else{
@@ -49,7 +51,7 @@ impl Server {
 		}
 	}
 	fn send(&self, addr: &SocketAddr, msg: Box<dyn Sendable>) {
-		let message = Message::new(msg);
+		let message = UDPMessage::new(msg);
 		
 		self.udp.send_to(&*message.serialize(), addr).unwrap();
 	}

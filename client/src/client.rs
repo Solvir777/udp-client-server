@@ -1,7 +1,7 @@
 use std::net::{SocketAddr, UdpSocket};
 use std::ops::Range;
 use shared::{BUFFER_SIZE, SERVER_ADDRESS};
-use shared::message::{Message, MessageType};
+use shared::udp_message::{UDPMessage, MessageTypeUDP};
 
 pub struct Client {
 	socket: UdpSocket,
@@ -12,11 +12,11 @@ impl Client {
 		loop {
 			let mut buf = [0u8; BUFFER_SIZE];
 			if let Ok(_) = self.socket.recv(&mut buf) {
-				match Message::deserialize(&mut buf.to_vec()) {
-					MessageType::TestStruct(ts) => {
+				match UDPMessage::deserialize(&mut buf.to_vec()) {
+					MessageTypeUDP::TestStruct(ts) => {
 						println!("Received TestStruct {:?}", ts);
 					},
-					MessageType::String(str) => {
+					MessageTypeUDP::String(str) => {
 						println!("Received String {:?}", str);
 					}
 				}
